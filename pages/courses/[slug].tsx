@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import config from '../../config/config';
 
-export const Home = ({ course }: { course: Course }): JSX.Element => {
+export const CoursePage = ({ course }: { course: Course }): JSX.Element => {
   return (
     <div className="container">
       <Head>
@@ -18,13 +18,14 @@ export const Home = ({ course }: { course: Course }): JSX.Element => {
           src={`${config.apiHost}${course.heroImage[0].formats.medium.url}`}
         />
 
-        <button
-          onClick={() => {
-            window.alert('With typescript and Jest');
-          }}
-        >
-          Test Button
-        </button>
+        {course.lessons.map((lesson) => {
+          return (
+            <p key={lesson.id}>
+              {lesson.title}. Last updated:{' '}
+              {new Date(lesson.updated_at).toLocaleDateString()}
+            </p>
+          );
+        })}
       </main>
 
       <footer>
@@ -189,11 +190,9 @@ export const Home = ({ course }: { course: Course }): JSX.Element => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const response = await fetch(
-    `${config.apiHost}/courses?slug=${context.params.slug}`
+  const course = await fetch(
+    `${config.apiHost}/courses/${context.params.slug}`
   ).then((res) => res.json());
-
-  const course = response[0];
 
   return {
     props: {
@@ -202,4 +201,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default Home;
+export default CoursePage;

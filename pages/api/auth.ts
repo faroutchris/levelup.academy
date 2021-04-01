@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import config from '../../config/config';
-const { parseCookies, setCookie, destroyCookie } = require('nookies');
+const { setCookie } = require('nookies');
 
 enum StatusCodes {
   OK = 200,

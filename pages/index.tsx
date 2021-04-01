@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import config from '../config/config';
 
 export const Home = ({ courses }: { courses: Course[] }): JSX.Element => (
@@ -12,8 +13,11 @@ export const Home = ({ courses }: { courses: Course[] }): JSX.Element => (
 
     <main>
       <h1 className="title">
-        Welcome to <a href="https://nextjs.org">levelup.academy</a>
+        <a href="https://nextjs.org">levelup.academy</a>
       </h1>
+      <p>
+        <Link href="/login">Login</Link>
+      </p>
 
       <p className="description">
         Get started by editing <code>pages/index.tsx</code>
@@ -191,13 +195,8 @@ export const Home = ({ courses }: { courses: Course[] }): JSX.Element => (
   </div>
 );
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookies = context.req.cookies;
-  console.log(cookies);
-
+export const getServerSideProps: GetServerSideProps = async () => {
   const response = await fetch(`${config.apiHost}/courses`);
-
-  console.log(response);
 
   const courses = await response.json();
 

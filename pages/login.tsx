@@ -1,20 +1,11 @@
-import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { FormEvent, FormEventHandler, useState } from 'react';
+import { FormEvent, FormEventHandler, useEffect, useState } from 'react';
 import config from '../config/config';
-
-enum StatusCodes {
-  OK = 200,
-  BAD_REQUEST = 400,
-  FORBIDDEN = 403,
-  NOT_FOUND = 404,
-  SERVER_ERROR = 500,
-}
+import { StatusCodes } from '../constants/statuscodes';
 
 export const Login = (): JSX.Element => {
   const [formError, setFormError] = useState<string[]>(null);
-
   const handleSubmit: FormEventHandler = async (
     event: FormEvent<HTMLFormElement>
   ) => {
@@ -23,7 +14,7 @@ export const Login = (): JSX.Element => {
     const password = event.target[1].value;
 
     try {
-      const response = await fetch(`${config.apiLocal}/api/auth`, {
+      const response = await fetch(`${config.apiHost}/auth/local`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,11 +32,18 @@ export const Login = (): JSX.Element => {
         setFormError(data.message);
       }
 
-      console.log(data);
+      localStorage.setItem('AuthToken', data.jwt);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      //
+    };
+  });
 
   return (
     <div className="container">
