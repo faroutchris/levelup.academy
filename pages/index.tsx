@@ -1,7 +1,9 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import config from '../config/config';
 
-export const Home = (): JSX.Element => (
+export const Home = ({ courses }: { courses: Course[] }): JSX.Element => (
   <div className="container">
     <Head>
       <title>Create Next App</title>
@@ -10,7 +12,7 @@ export const Home = (): JSX.Element => (
 
     <main>
       <h1 className="title">
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
+        Welcome to <a href="https://nextjs.org">levelup.academy</a>
       </h1>
 
       <p className="description">
@@ -19,38 +21,19 @@ export const Home = (): JSX.Element => (
 
       <button
         onClick={() => {
-          window.alert('With typescript and Jest')
+          window.alert('With typescript and Jest');
         }}
       >
         Test Button
       </button>
 
       <div className="grid">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Learn &rarr;</h3>
-          <p>Learn about Next.js in an interactive course with quizzes!</p>
-        </a>
-
-        <a
-          href="https://github.com/vercel/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Discover and deploy boilerplate example Next.js projects.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          className="card"
-        >
-          <h3>Deploy &rarr;</h3>
-          <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
-        </a>
+        {courses.map((course) => (
+          <a key={course.id} href={`/courses/${course.slug}`} className="card">
+            <h3>{course.title}</h3>
+            <p>Lessons in this module {course.lessons.length}</p>
+          </a>
+        ))}
       </div>
     </main>
 
@@ -206,6 +189,23 @@ export const Home = (): JSX.Element => (
       }
     `}</style>
   </div>
-)
+);
 
-export default Home
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const cookies = context.req.cookies;
+  console.log(cookies);
+
+  const response = await fetch(`${config.apiHost}/courses`);
+
+  console.log(response);
+
+  const courses = await response.json();
+
+  return {
+    props: {
+      courses,
+    },
+  };
+};
+
+export default Home;

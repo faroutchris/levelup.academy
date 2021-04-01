@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_payable_courses",
+  "info": {
+    "name": "coursesPayable",
+    "icon": "apple-alt",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "courses": {
+      "collection": "course"
+    }
+  }
+}

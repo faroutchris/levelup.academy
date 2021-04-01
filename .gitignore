@@ -18,6 +18,19 @@
 # misc
 .DS_Store
 *.pem
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+.Spotlight-V100
+.Trashes
+._*
+*#
+ssl
+.idea
+nbproject
+public/uploads/*
+!public/uploads/.gitkeep
 
 # debug
 npm-debug.log*
@@ -29,6 +42,48 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env
 
 # vercel
 .vercel
+
+# packages
+*.7z
+*.csv
+*.dat
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.seed
+*.so
+*.swo
+*.swp
+*.swn
+*.swm
+*.out
+*.pid
+
+# logs
+.tmp
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+
+
+# node.js
+lib-cov
+lcov.info
+pids
+logs
+results
+.node_history

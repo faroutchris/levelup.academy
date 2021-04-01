@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "lessons",
+  "info": {
+    "name": "Lesson",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "course": {
+      "model": "course",
+      "via": "lessons"
+    },
+    "scenarios": {
+      "type": "dynamiczone",
+      "components": [
+        "lesson-components.question-scenario",
+        "lesson-components.video-lesson",
+        "lesson-components.article"
+      ]
+    }
+  }
+}
