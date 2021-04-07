@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FormEvent, FormEventHandler, useEffect, useState } from 'react';
 import config from '../config/config';
 import { StatusCodes } from '../constants/statuscodes';
@@ -66,6 +67,8 @@ export const Login = (): JSX.Element => {
             <input type="submit" className="btn" />
           </div>
         </form>
+
+        <Link href="/register">Click here to register instead</Link>
       </main>
 
       <footer>

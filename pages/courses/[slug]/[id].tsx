@@ -25,11 +25,11 @@ export const LessonPage = (): JSX.Element => {
           const data = await response.json();
           if (data.statusCode === StatusCodes.UNAUTHORIZED) {
             router.push('/login');
-          }
-          if (data.statusCode === StatusCodes.FORBIDDEN) {
+          } else if (data.statusCode === StatusCodes.FORBIDDEN) {
             router.push('/login');
+          } else {
+            setData(data);
           }
-          setData(data);
         } catch (error) {
           // eslint-disable-next-line no-console
           console.log(error);
@@ -59,13 +59,25 @@ export const LessonPage = (): JSX.Element => {
 
         {data.scenarios.map((scenario) => {
           if (scenario.__component === 'lesson-components.article') {
-            return <p>{scenario.title}</p>;
+            return (
+              <p key={scenario.__component + '_' + scenario.id}>
+                {scenario.title}
+              </p>
+            );
           }
           if (scenario.__component === 'lesson-components.question-scenario') {
-            return <p>{scenario.question}</p>;
+            return (
+              <p key={scenario.__component + '_' + scenario.id}>
+                {scenario.question}
+              </p>
+            );
           }
           if (scenario.__component === 'lesson-components.video-lesson') {
-            return <p>{scenario.title}</p>;
+            return (
+              <p key={scenario.__component + '_' + scenario.id}>
+                {scenario.title}
+              </p>
+            );
           }
           return null;
         })}

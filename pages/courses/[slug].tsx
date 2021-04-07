@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import config from '../../config/config';
 
 export const CoursePage = ({ course }: { course: Course }): JSX.Element => {
@@ -20,10 +21,16 @@ export const CoursePage = ({ course }: { course: Course }): JSX.Element => {
 
         {course.lessons.map((lesson) => {
           return (
-            <p key={lesson.id}>
-              {lesson.title}. Last updated:{' '}
-              {new Date(lesson.updated_at).toLocaleDateString()}
-            </p>
+            <div key={lesson.id}>
+              <p>
+                <Link href={`/courses/${course.slug}/${lesson.id}`}>
+                  {lesson.title}
+                </Link>
+              </p>
+              <p>
+                Last updated: {new Date(lesson.updated_at).toLocaleDateString()}
+              </p>
+            </div>
           );
         })}
       </main>
