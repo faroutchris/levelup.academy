@@ -8,9 +8,7 @@ import { StatusCodes } from '../constants/statuscodes';
 
 export const Login = (): JSX.Element => {
   const [formError, setFormError] = useState<string[]>(null);
-  const handleSubmit: FormEventHandler = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit: FormEventHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const identifier = event.target[0].value;
     const password = event.target[1].value;
@@ -48,46 +46,35 @@ export const Login = (): JSX.Element => {
   });
 
   return (
-    <div className="container">
+    <>
       <Head>
-        <title>Login</title>
+        <title>Sign in | levelup.academy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {!!formError && <p>{formError}</p>}
-      <main>
-        <h1 className="title">Login</h1>
+      <main className="w-full h-screen flex flex-row">
+        <div className="w-1/3 h-full bg-cardinal-400"></div>
+        <div className="px-6 w-1/3 mx-auto flex">
+          <div className="my-auto">
+            <h1 className="title">Login</h1>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-field">
-            <input type="email" name="identifier" id="identifier" />
-          </div>
-          <div className="form-field">
-            <input type="password" name="password" id="password" />
-          </div>
-          <div className="form-field">
-            <input type="submit" className="btn" />
-          </div>
-        </form>
+            <form onSubmit={handleSubmit}>
+              <div className="form-field">
+                <input type="email" name="identifier" id="identifier" />
+              </div>
+              <div className="form-field">
+                <input type="password" name="password" id="password" />
+              </div>
+              <div className="form-field">
+                <input type="submit" className="btn" />
+              </div>
+            </form>
 
-        <Link href={STATIC_ROUTES.SignUp}>Click here to sign up instead</Link>
+            <Link href={STATIC_ROUTES.SignUp}>Click here to sign up instead</Link>
+          </div>
+        </div>
       </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image
-            src="/vercel.svg"
-            alt="Vercel Logo"
-            height={'32'}
-            width={'64'}
-          />
-        </a>
-      </footer>
-    </div>
+    </>
   );
 };
 
