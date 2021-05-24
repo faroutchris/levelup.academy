@@ -64,6 +64,10 @@
       "components": [
         "payable.courses"
       ]
+    },
+    "topics": {
+      "via": "user",
+      "collection": "topic"
     }
   }
 }

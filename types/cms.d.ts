@@ -102,10 +102,7 @@ declare type ArticleComponent = {
   cover?: Media;
 };
 
-declare type ScenarioComponent =
-  | QuizComponent
-  | VideoComponent
-  | ArticleComponent;
+declare type ScenarioComponent = QuizComponent | VideoComponent | ArticleComponent;
 
 declare interface Lesson {
   id: number;
@@ -124,4 +121,11 @@ declare interface Course {
   release: string;
   heroImage: Media;
   lessons: LessonTruncated[];
+}
+
+declare interface Topic {
+  id: number;
+  title: string;
+  post: string;
+  response: any[];
 }

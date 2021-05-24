@@ -22,14 +22,11 @@ module.exports = {
       withRelated: ['lessons', 'heroImage'],
     });
 
-    return entities.map((entity) =>
-      sanitizeEntity(entity, { model: strapi.models.course })
-    );
+    return entities.map((entity) => sanitizeEntity(entity, { model: strapi.models.course }));
   },
 
   async findOne(ctx) {
     const { id } = ctx.params;
-    console.log('is here findone', ctx.params);
 
     const entity = await strapi
       .query('course')

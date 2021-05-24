@@ -1,3 +1,5 @@
+import { MouseEventHandler } from 'react';
+
 const btnType = {
   primary:
     'whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-blue-500 rounded-md shadow-l hover:shadow-xl text-base font-medium text-white bg-blue-500',
@@ -12,7 +14,7 @@ interface Props {
   type: 'primary' | 'secondary' | 'tertiary';
 }
 
-const Button: React.FC<Props> = ({ children, type }) => {
+const Button: React.FC<Props> = ({ children, onClick, type }) => {
   return <button className={btnType[type]}>{children}</button>;
 };
 
