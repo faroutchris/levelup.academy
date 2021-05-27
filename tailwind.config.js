@@ -1,13 +1,20 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['DM Sans', ...defaultTheme.fontFamily.sans],
+        serif: ['DM Serif Display', ...defaultTheme.fontFamily.serif],
+      },
       backgroundImage: {
         hero: "url('/hero-bg.png')",
         'hero-img': "url('/documentation.png')",
       },
       colors: {
+        subtle: '#f7f7fc',
         sapphire: {
           50: '#f3f8fc',
           100: '#ebf4f9',

@@ -20,7 +20,7 @@ const Hero: React.FC = () => {
   return (
     <section className="w-full bg-gray-900 relative flex flex-col overflow-hidden">
       <div className="container max-w-screen-2xl mx-auto bg-hero bg-no-repeat bg-top-left h-full px-4 md:px-6">
-        <Header />
+        <Header invert={true} />
 
         <div className="flex mt-24 space-x-4 mb-24">
           <div className="lg:w-2/4 md:w-3/4 w-full">

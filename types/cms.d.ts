@@ -104,6 +104,18 @@ declare type ArticleComponent = {
 
 declare type ScenarioComponent = QuizComponent | VideoComponent | ArticleComponent;
 
+declare interface User {
+  id: number;
+  username: string;
+  email: string;
+  provider: 'local';
+  confirmed: boolean;
+  blocked: boolean;
+  role: number;
+  created_at: string;
+  updated_at: string;
+}
+
 declare interface Lesson {
   id: number;
   published_at: string;
@@ -125,7 +137,19 @@ declare interface Course {
 
 declare interface Topic {
   id: number;
+  published_at: string;
+  created_at: string;
+  updated_at: string;
   title: string;
   post: string;
-  response: any[];
+  user: User;
+}
+
+declare interface Comment {
+  id: number;
+  published_at: string;
+  created_at: string;
+  updated_at: string;
+  body: string;
+  user: User;
 }

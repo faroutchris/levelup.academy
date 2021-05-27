@@ -10,19 +10,4 @@
  * See more details here: https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/configurations.html#bootstrap
  */
 
-module.exports = () => {
-  var io = require('socket.io')(strapi.server, {
-    cors: {
-      origin: 'http://localhost:3000', // TODO: get from .env
-      methods: ['GET', 'POST'],
-      allowedHeaders: ['my-custom-header'],
-      credentials: true,
-    },
-  });
-
-  io.on('connection', function (socket) {
-    socket.on('join', ({ username, room }) => {
-      console.log(username + ' joined ' + room);
-    });
-  });
-};
+module.exports = () => {};

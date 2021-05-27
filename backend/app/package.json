@@ -14,7 +14,6 @@
     "knex": "0.21.18",
     "pg": "8.5.1",
     "slugify": "^1.5.0",
-    "socket.io": "^4.1.2",
     "strapi": "3.5.4",
     "strapi-admin": "3.5.4",
     "strapi-connector-bookshelf": "3.5.4",
@@ -26,7 +25,7 @@
     "strapi-utils": "3.5.4"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Christo Georgiev"
   },
   "strapi": {
     "uuid": "59d281b9-02a6-436f-ae9b-5d7e873d24fd"
