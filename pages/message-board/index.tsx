@@ -38,7 +38,7 @@ const MessageBoardIndex: React.FC<{ topics: Topic[] }> = ({ topics }) => {
                     <h3 className="font-medium text-xl">{topic.title}</h3>
                   </a>
                 </Link>
-                <span className="ml-5 font-sans">{topic.user.username}</span>
+                <span className="ml-5 font-sans">{topic.user?.username}</span>
                 <span className="font-medium ml-auto">{dateString}</span>
               </div>
             );
