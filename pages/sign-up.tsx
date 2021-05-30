@@ -1,42 +1,83 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { FormEvent, FormEventHandler, useEffect, useState } from 'react';
+import React, { FormEvent, FormEventHandler, useEffect, useReducer, useState } from 'react';
 import { useMutation } from 'react-query';
 import Validatable from '../components/Validatable';
-import config from '../config/config';
 import STATIC_ROUTES from '../constants/routes';
+import { StrapiApiError } from '../constants/strapi-api-error';
+import postAuthLocalRegister, { UserData } from '../services/api/post-auth-local-register';
+
+const validations = {
+  leastChars: (n: number) => ({
+    fn: (value: string): boolean => n <= value.length,
+    errorMessage: `Must be at least ${n} characters`,
+  }),
+  isEmail: {
+    fn: (value: string): boolean => /^\S+@\S+\.\S+$/.test(value),
+    errorMessage: `This doesn't seem to be a valid email address`,
+  },
+  goodPassword: {
+    fn: (value: string): boolean => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(value),
+    errorMessage: `Use at least one number, one lowercase and one uppercase character in your password`,
+  },
+  passwordMatch: (input: string) => ({
+    fn: (value: any): boolean => input === value,
+    errorMessage: `Passwords must match`,
+  }),
+};
+
+enum actions {
+  SetValidInput = 'setValidInput',
+}
+
+type Actions = {
+  type: actions.SetValidInput;
+  payload: { isValid: boolean; value: string };
+  meta: string;
+};
+
+type State = {
+  inputUsername: { isValid: boolean; value: string };
+  inputEmail: { isValid: boolean; value: string };
+  inputPassword: { isValid: boolean; value: string };
+  inputConfirmPassword: { isValid: boolean; value: string };
+};
+
+const initialState = {
+  inputUsername: { isValid: false, value: '' },
+  inputEmail: { isValid: false, value: '' },
+  inputPassword: { isValid: false, value: '' },
+  inputConfirmPassword: { isValid: false, value: '' },
+};
+
+const reducer = (state: State, action: Actions) => {
+  switch (action.type) {
+    case actions.SetValidInput: {
+      return { ...state, [action.meta]: action.payload };
+    }
+    default:
+      return state;
+  }
+};
 
 export const Register = (): JSX.Element => {
   const router = useRouter();
-  const [password, setPassword] = useState<string>(null);
-  const mutation = useMutation<
-    UserResponse,
-    Error,
-    { email: string; username: string; password: string }
-  >(async (userData) => {
-    const response = await fetch(`${config.apiHost}/auth/local/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-cache',
-      body: JSON.stringify(userData),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) return Promise.reject(data.message[0].messages[0].message);
-
-    return data;
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const mutation = useMutation<UserResponse, StrapiApiError, UserData>(
+    async (userData) => await postAuthLocalRegister(userData)
+  );
 
   const handleSubmit: FormEventHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const email = event.target[0].value;
-    const username = event.target[1].value;
-    const password = event.target[2].value;
 
-    mutation.mutate({ email, username, password });
+    const formIsValid = Object.keys(state).every((key) => state[key].isValid);
+
+    formIsValid &&
+      mutation.mutate({
+        email: state.inputEmail.value,
+        username: state.inputUsername.value,
+        password: state.inputPassword.value,
+      });
   };
 
   useEffect(() => {
@@ -46,23 +87,8 @@ export const Register = (): JSX.Element => {
     }
   }, [mutation.isSuccess]);
 
-  const validations = {
-    leastChars: (n: number) => ({
-      fn: (value: string): boolean => n <= value.length,
-      errorMessage: `Must be at least ${n} characters`,
-    }),
-    isEmail: {
-      fn: (value: string): boolean => /^\S+@\S+\.\S+$/.test(value),
-      errorMessage: `This doesn't seem to be a valid email address`,
-    },
-    goodPassword: {
-      fn: (value: string): boolean => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(value),
-      errorMessage: `Use at least one number in your password`,
-    },
-    passwordMatch: (input: string) => ({
-      fn: (value: any): boolean => input === value,
-      errorMessage: `Passwords must match`,
-    }),
+  const handleInput = (inputId: string, isValid: boolean, value: string) => {
+    dispatch({ type: actions.SetValidInput, payload: { isValid, value }, meta: inputId });
   };
 
   return (
@@ -71,8 +97,6 @@ export const Register = (): JSX.Element => {
         <title>Sign up</title>
       </Head>
       <div className="container">
-        {mutation.isSuccess && 'Yay'}
-        {mutation.isError && 'Error' + ' ' + mutation.error}
         <div className="row">
           <div className="col-lg-10 col-xl-9 mx-auto">
             <div className="card flex-row my-5">
@@ -81,7 +105,11 @@ export const Register = (): JSX.Element => {
                 <h5 className="card-title text-center mb-5">Sign up</h5>
                 <form className="form-signup" onSubmit={handleSubmit}>
                   <div className="form-label-group mb-3">
-                    <Validatable initialValue="" validations={[validations.isEmail]}>
+                    <Validatable
+                      initialValue=""
+                      onChange={(isValid, value) => handleInput('inputEmail', isValid, value)}
+                      validations={[validations.isEmail]}
+                    >
                       {({ value, setValue, validate, hasError, errorMessage }) => {
                         return (
                           <>
@@ -106,7 +134,11 @@ export const Register = (): JSX.Element => {
                     </Validatable>
                   </div>
                   <div className="form-label-group mb-5">
-                    <Validatable initialValue="" validations={[validations.leastChars(3)]}>
+                    <Validatable
+                      initialValue=""
+                      onChange={(isValid, value) => handleInput('inputUsername', isValid, value)}
+                      validations={[validations.leastChars(3)]}
+                    >
                       {({ value, setValue, validate, hasError, errorMessage }) => {
                         return (
                           <>
@@ -135,7 +167,7 @@ export const Register = (): JSX.Element => {
                   <div className="form-label-group mb-3">
                     <Validatable
                       initialValue=""
-                      onChange={setPassword}
+                      onChange={(isValid, value) => handleInput('inputPassword', isValid, value)}
                       validations={[validations.goodPassword, validations.leastChars(8)]}
                     >
                       {({ value, setValue, validate, hasError, errorMessage }) => {
@@ -165,7 +197,10 @@ export const Register = (): JSX.Element => {
                   <div className="form-label-group mb-5">
                     <Validatable
                       initialValue=""
-                      validations={[validations.passwordMatch(password)]}
+                      onChange={(isValid, value) =>
+                        handleInput('inputConfirmPassword', isValid, value)
+                      }
+                      validations={[validations.passwordMatch(state.inputPassword.value)]}
                     >
                       {({ value, setValue, validate, hasError, errorMessage }) => {
                         return (
@@ -194,6 +229,16 @@ export const Register = (): JSX.Element => {
                     <button className="btn btn-primary" type="submit">
                       Continue
                     </button>
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    {mutation.isSuccess && (
+                      <p className="form-text text-success">
+                        Success! You will be redirected to the dashboard in a few moments
+                      </p>
+                    )}
+                    {mutation.isError && (
+                      <p className="form-text text-danger">{mutation.error.message}</p>
+                    )}
                   </div>
                 </form>
               </div>

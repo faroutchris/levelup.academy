@@ -2,12 +2,12 @@ import React, { useEffect, useReducer } from 'react';
 
 interface Props {
   initialValue: string | number;
-  onChange?(e: any): any;
+  onChange?(isValid: boolean, value: any): void;
   children(
     props: State & {
       setValue(newValue: any): void;
       validate(newValue: any): void;
-      transformer(value: any): any;
+      transformer(value: any): void;
     }
   ): React.ReactNode;
   validations: any[];
@@ -78,7 +78,9 @@ const Validatable = ({
 
     const isValid = checkValidation(newValue);
     if (isValid) {
-      dispatch({ type: actions.SetValue, payload: newValue });
+      if (onChange) onChange(true, state.value);
+    } else {
+      if (onChange) onChange(false, state.value);
     }
   };
 
@@ -89,10 +91,6 @@ const Validatable = ({
   const validate = (newValue: any) => {
     update(newValue);
   };
-
-  useEffect(() => {
-    if (onChange) onChange(state.value);
-  }, [state.value]);
 
   return children({
     ...state,
