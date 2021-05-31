@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { FormEvent, FormEventHandler, useEffect, useReducer, useState } from 'react';
+import React, { FormEvent, FormEventHandler, useReducer } from 'react';
 import { useMutation } from 'react-query';
 import Validatable from '../components/Validatable';
 import STATIC_ROUTES from '../constants/routes';
-import { StrapiApiError } from '../constants/strapi-api-error';
+import StrapiApiError from '../constants/strapi-api-error';
 import postAuthLocalRegister, { UserData } from '../services/api/post-auth-local-register';
 
 const validations = {
@@ -64,7 +64,13 @@ export const Register = (): JSX.Element => {
   const router = useRouter();
   const [state, dispatch] = useReducer(reducer, initialState);
   const mutation = useMutation<UserResponse, StrapiApiError, UserData>(
-    async (userData) => await postAuthLocalRegister(userData)
+    (userData) => postAuthLocalRegister(userData),
+    {
+      onSuccess: () => {
+        localStorage.setItem('AuthToken', mutation.data.jwt);
+        setTimeout(() => router.push(STATIC_ROUTES.MessageBoard), 2000);
+      },
+    }
   );
 
   const handleSubmit: FormEventHandler = async (event: FormEvent<HTMLFormElement>) => {
@@ -79,13 +85,6 @@ export const Register = (): JSX.Element => {
         password: state.inputPassword.value,
       });
   };
-
-  useEffect(() => {
-    if (mutation.data) {
-      localStorage.setItem('AuthToken', mutation.data.jwt);
-      setTimeout(() => router.push(STATIC_ROUTES.MessageBoard), 2000);
-    }
-  }, [mutation.isSuccess]);
 
   const handleInput = (inputId: string, isValid: boolean, value: string) => {
     dispatch({ type: actions.SetValidInput, payload: { isValid, value }, meta: inputId });
@@ -197,6 +196,7 @@ export const Register = (): JSX.Element => {
                   <div className="form-label-group mb-5">
                     <Validatable
                       initialValue=""
+                      watch={state.inputPassword.value}
                       onChange={(isValid, value) =>
                         handleInput('inputConfirmPassword', isValid, value)
                       }

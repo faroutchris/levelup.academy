@@ -1,4 +1,4 @@
-export class StrapiApiError extends Error {
+class StrapiApiError extends Error {
   id: string;
 
   constructor(data) {
@@ -8,3 +8,5 @@ export class StrapiApiError extends Error {
     this.name = 'StrapiApiError';
   }
 }
+
+export default StrapiApiError;

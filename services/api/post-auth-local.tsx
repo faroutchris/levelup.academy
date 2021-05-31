@@ -1,10 +1,10 @@
 import config from '../../config/config';
 import StrapiApiError from '../../constants/strapi-api-error';
 
-export type UserData = { email: string; username: string; password: string };
+export type UserDataSignIn = { identifier: string; password: string };
 
-const postAuthLocalRegister = async (userData: UserData): Promise<UserResponse> => {
-  const response = await fetch(`${config.apiHost}/auth/local/register`, {
+const postAuthLocal = async (userData: UserDataSignIn): Promise<UserResponse> => {
+  const response = await fetch(`${config.apiHost}/auth/local`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -17,4 +17,4 @@ const postAuthLocalRegister = async (userData: UserData): Promise<UserResponse> 
   return data;
 };
 
-export default postAuthLocalRegister;
+export default postAuthLocal;

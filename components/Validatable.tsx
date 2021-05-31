@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from 'react';
 
 interface Props {
   initialValue: string | number;
+  watch?: any;
   onChange?(isValid: boolean, value: any): void;
   children(
     props: State & {
@@ -15,9 +16,9 @@ interface Props {
 }
 
 enum actions {
-  SetError = 'setError',
-  UnsetError = 'unsetError',
-  SetValue = 'setValue',
+  SetError,
+  UnsetError,
+  SetValue,
 }
 
 type Actions =
@@ -25,11 +26,12 @@ type Actions =
   | { type: actions.UnsetError }
   | { type: actions.SetValue; payload: any };
 
-type State = {
+interface State {
+  isDirty: boolean;
   value: any;
   hasError: boolean;
   errorMessage: string | null;
-};
+}
 
 const reducer = (state: State, action: Actions) => {
   switch (action.type) {
@@ -40,7 +42,7 @@ const reducer = (state: State, action: Actions) => {
       return { ...state, hasError: false, errorMessage: null };
     }
     case actions.SetValue: {
-      return { value: action.payload, hasError: false, errorMessage: null };
+      return { value: action.payload, isDirty: true, hasError: false, errorMessage: null };
     }
     default:
       return state;
@@ -50,11 +52,13 @@ const reducer = (state: State, action: Actions) => {
 const Validatable = ({
   initialValue,
   onChange,
+  watch,
   children,
   validations,
   transformer,
 }: Props): any => {
   const initialState = {
+    isDirty: false,
     value: initialValue,
     hasError: false,
     errorMessage: null,
@@ -76,7 +80,7 @@ const Validatable = ({
   const update = (newValue: any) => {
     dispatch({ type: actions.UnsetError });
 
-    const isValid = checkValidation(newValue);
+    const isValid = state.isDirty ? checkValidation(newValue) : true;
     if (isValid) {
       if (onChange) onChange(true, state.value);
     } else {
@@ -91,6 +95,10 @@ const Validatable = ({
   const validate = (newValue: any) => {
     update(newValue);
   };
+
+  useEffect(() => {
+    if (watch) update(state.value);
+  }, [watch]);
 
   return children({
     ...state,
