@@ -7,9 +7,11 @@ import {
   successfulResponse,
 } from '../../libs/response-checker/response-checker';
 
-const postAuthLogin = async (userData: UserDataRequest): Promise<AxiosResponse<LoginResponse>> => {
+const postAuthRegister = async (
+  userData: UserDataRequest
+): Promise<AxiosResponse<LoginResponse>> => {
   try {
-    const response = await authAPI.post('/login', userData);
+    const response = await authAPI.post('/register', userData);
 
     if (successfulResponse(response)) {
       return response;
@@ -24,4 +26,4 @@ const postAuthLogin = async (userData: UserDataRequest): Promise<AxiosResponse<L
   }
 };
 
-export default postAuthLogin;
+export default postAuthRegister;

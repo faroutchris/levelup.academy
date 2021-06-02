@@ -1,14 +1,11 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import React, { FormEvent, FormEventHandler, useEffect, useReducer, useState } from 'react';
-import config from '../config/config';
+import React, { useReducer } from 'react';
+import { useRouter } from 'next/router';
 import STATIC_ROUTES from '../constants/routes';
-import { StatusCodes } from '../constants/statuscodes';
 import Validatable from '../components/Validatable';
 import { useMutation } from 'react-query';
-import StrapiApiError from '../constants/strapi-api-error';
-import postAuthLocal, { UserDataSignIn } from '../services/api/post-auth-local';
-import { useRouter } from 'next/router';
+import DirectusError from '../constants/directus-error';
+import postAuthLogin from '../services/api/post-auth-login';
+import { AxiosResponse } from 'axios';
 
 const validations = {
   leastChars: (n: number) => ({
@@ -50,11 +47,11 @@ const reducer = (state: State, action: Actions) => {
 export const SignIn = (): JSX.Element => {
   const router = useRouter();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const mutation = useMutation<UserResponse, StrapiApiError, UserDataSignIn>(
-    (userData) => postAuthLocal(userData),
+  const mutation = useMutation<AxiosResponse<LoginResponse>, DirectusError, UserDataRequest>(
+    (userData) => postAuthLogin(userData),
     {
-      onSuccess: () => {
-        localStorage.setItem('AuthToken', mutation.data.jwt);
+      onSuccess: (res) => {
+        localStorage.setItem('AccessToken', res.data.accessToken);
         setTimeout(() => router.push(STATIC_ROUTES.MessageBoard), 2000);
       },
     }
@@ -66,7 +63,7 @@ export const SignIn = (): JSX.Element => {
     const formIsValid = Object.keys(state).every((key) => state[key].isValid);
 
     formIsValid &&
-      mutation.mutate({ identifier: state.inputEmail.value, password: state.inputPassword.value });
+      mutation.mutate({ email: state.inputEmail.value, password: state.inputPassword.value });
   };
 
   const handleInput = (inputId: string, isValid: boolean, value: string) => {
@@ -162,78 +159,6 @@ export const SignIn = (): JSX.Element => {
       </div>
     </div>
   );
-
-  // const [formError, setFormError] = useState<string[]>(null);
-  // const handleSubmit: FormEventHandler = async (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const identifier = event.target[0].value;
-  //   const password = event.target[1].value;
-
-  //   try {
-  //     const response = await fetch(`${config.apiHost}/auth/local`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       cache: 'no-cache',
-  //       body: JSON.stringify({
-  //         identifier,
-  //         password,
-  //       }),
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (data.statusCode === StatusCodes.BAD_REQUEST) {
-  //       setFormError(data.message[0].messages[0].message);
-  //     }
-
-  //     localStorage.setItem('AuthToken', data.jwt);
-  //   } catch (error) {
-  //     // eslint-disable-next-line no-console
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   return () => {
-  //     //
-  //   };
-  // });
-
-  // return (
-  //   <>
-  //     <Head>
-  //       <title>Sign in | levelup.academy</title>
-  //       <link rel="icon" href="/favicon.ico" />
-  //     </Head>
-  //     {!!formError && <p>{formError}</p>}
-  //     <main className="w-full h-screen flex flex-row">
-  //       <div className="w-1/3 h-full bg-cardinal-400"></div>
-  //       <div className="px-6 w-1/3 mx-auto flex">
-  //         <div className="my-auto">
-  //           <h1 className="title">SignIn</h1>
-
-  //           <form onSubmit={handleSubmit}>
-  //             <div className="form-field">
-  //               <input type="email" name="identifier" id="identifier" />
-  //             </div>
-  //             <div className="form-field">
-  //               <input type="password" name="password" id="password" />
-  //             </div>
-  //             <div className="form-field">
-  //               <input type="submit" className="btn" />
-  //             </div>
-  //           </form>
-
-  //           <Link href={STATIC_ROUTES.SignUp}>Click here to sign up instead</Link>
-  //         </div>
-  //       </div>
-  //     </main>
-  //   </>
-  // );
 };
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {};
 
 export default SignIn;

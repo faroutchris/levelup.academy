@@ -4,8 +4,9 @@ import React, { FormEvent, FormEventHandler, useReducer } from 'react';
 import { useMutation } from 'react-query';
 import Validatable from '../components/Validatable';
 import STATIC_ROUTES from '../constants/routes';
-import StrapiApiError from '../constants/strapi-api-error';
-import postAuthLocalRegister, { UserData } from '../services/api/post-auth-local-register';
+import DirectusError from '../constants/directus-error';
+import postAuthRegister from '../services/api/post-auth-register';
+import { AxiosResponse } from 'axios';
 
 const validations = {
   leastChars: (n: number) => ({
@@ -37,14 +38,12 @@ type Actions = {
 };
 
 type State = {
-  inputUsername: { isValid: boolean; value: string };
   inputEmail: { isValid: boolean; value: string };
   inputPassword: { isValid: boolean; value: string };
   inputConfirmPassword: { isValid: boolean; value: string };
 };
 
 const initialState = {
-  inputUsername: { isValid: false, value: '' },
   inputEmail: { isValid: false, value: '' },
   inputPassword: { isValid: false, value: '' },
   inputConfirmPassword: { isValid: false, value: '' },
@@ -63,11 +62,11 @@ const reducer = (state: State, action: Actions) => {
 export const Register = (): JSX.Element => {
   const router = useRouter();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const mutation = useMutation<UserResponse, StrapiApiError, UserData>(
-    (userData) => postAuthLocalRegister(userData),
+  const mutation = useMutation<AxiosResponse<LoginResponse>, DirectusError, UserDataRequest>(
+    (userData) => postAuthRegister(userData),
     {
-      onSuccess: () => {
-        localStorage.setItem('AuthToken', mutation.data.jwt);
+      onSuccess: (res) => {
+        localStorage.setItem('AuthToken', res.data.accessToken);
         setTimeout(() => router.push(STATIC_ROUTES.MessageBoard), 2000);
       },
     }
@@ -81,7 +80,6 @@ export const Register = (): JSX.Element => {
     formIsValid &&
       mutation.mutate({
         email: state.inputEmail.value,
-        username: state.inputUsername.value,
         password: state.inputPassword.value,
       });
   };
@@ -132,37 +130,6 @@ export const Register = (): JSX.Element => {
                       }}
                     </Validatable>
                   </div>
-                  <div className="form-label-group mb-5">
-                    <Validatable
-                      initialValue=""
-                      onChange={(isValid, value) => handleInput('inputUsername', isValid, value)}
-                      validations={[validations.leastChars(3)]}
-                    >
-                      {({ value, setValue, validate, hasError, errorMessage }) => {
-                        return (
-                          <>
-                            <label className="mb-1" htmlFor="inputUsername">
-                              Username
-                            </label>
-                            <input
-                              className="form-control"
-                              value={value}
-                              onChange={(e) => setValue(e.target.value)}
-                              onBlur={(e) => validate(e.target.value)}
-                              type="text"
-                              id="inputUsername"
-                              name="Username"
-                              placeholder="Username"
-                              required
-                              autoFocus
-                            />
-                            {hasError && <p className="form-text text-danger">{errorMessage}</p>}
-                          </>
-                        );
-                      }}
-                    </Validatable>
-                  </div>
-
                   <div className="form-label-group mb-3">
                     <Validatable
                       initialValue=""

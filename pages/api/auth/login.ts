@@ -7,40 +7,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void>
     case 'POST': {
       const { body }: { body: { email: string; password: string } } = req;
 
-      const registerBody = { ...body, role: process.env.DEFAULT_ROLE };
-
       const loginBody = { ...body, mode: 'json' };
-
-      try {
-        const register = await fetch(`${config.apiHost}/users/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer securetoken`,
-          },
-          cache: 'no-cache',
-          body: JSON.stringify(registerBody),
-        });
-
-        const registerData = await register.json();
-
-        if (!register.ok) {
-          res.status(register.status).send(registerData);
-          break;
-        }
-      } catch (error) {
-        res.status(500).send({
-          errors: [
-            {
-              message: 'Something went wrong',
-              extensions: {
-                code: 'INTERNAL_SERVER_ERROR',
-              },
-            },
-          ],
-        });
-        break;
-      }
 
       try {
         const login = await fetch(`${config.apiHost}/auth/login/`, {

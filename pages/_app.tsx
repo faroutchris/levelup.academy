@@ -1,9 +1,11 @@
 import '../styles/main.scss';
 import type { AppProps } from 'next/app';
-import { QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Layout from '../components/Layout';
-import queryClientInstance from '../config/query-client';
+// import queryClientInstance from '../config/query-client';
+
+const queryClientInstance = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
   return (
