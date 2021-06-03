@@ -1,45 +1,47 @@
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import authAPI from '../../config/auth-api';
+import useAuthStore from '../../store/auth';
 
 export default class AuthInterceptor implements Interceptor {
-  accessToken: string;
+  request = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
+    const { accessToken } = useAuthStore.getState();
 
-  request = (config: AxiosRequestConfig): AxiosRequestConfig => {
-    // if accessToken
-    config.headers = {
-      ...config.headers,
-      Authorization: `Bearer ${this.accessToken}`,
-    };
-    // else
-    // use authService (TODO) to get one
-    // if ok -> continue
-    // if failure, send error message / route to start page
-    return config;
+    const accessToken2 = window !== undefined && window.localStorage.getItem('AccessToken'); // useAuthStore.getState();
+
+    console.log('-->', accessToken);
+    console.log('2', accessToken2);
+
+    if (accessToken) {
+      return {
+        ...config,
+        headers: { ...config.headers, Authorization: `Bearer ${accessToken}` },
+      };
+    } else {
+      return config;
+    }
   };
 
-  onRejected = async (instance: AxiosInstance, error): Promise<any> => {
+  onRejected = async (instance: AxiosInstance, error: AxiosError): Promise<any> => {
     const { response, config } = error;
+    const { setAccessToken } = useAuthStore.getState();
+
+    console.log('-->', setAccessToken);
 
     if (response.status === 401) {
       try {
         const refreshResponse: AxiosResponse<LoginResponse> = await authAPI.post('/refresh');
 
-        this.accessToken = refreshResponse.data.accessToken;
+        const accessToken = refreshResponse.data.accessToken;
 
         config.headers = {
           ...config.headers,
-          Authorization: `Bearer ${this.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         };
 
-        window.localStorage
-          ? window.localStorage.setItem('AccessToken', this.accessToken)
-          : () => {
-              /* no op */
-            };
+        setAccessToken(accessToken);
 
         return new Promise((resolve) => resolve(instance(config)));
       } catch (_) {
-        alert('You have been logged out');
         return Promise.reject(error);
       }
     }

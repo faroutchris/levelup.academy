@@ -6,6 +6,8 @@ import { useMutation } from 'react-query';
 import DirectusError from '../constants/directus-error';
 import postAuthLogin from '../services/api/post-auth-login';
 import { AxiosResponse } from 'axios';
+import Link from 'next/link';
+import useAuthStore from '../store/auth';
 
 const validations = {
   leastChars: (n: number) => ({
@@ -46,13 +48,14 @@ const reducer = (state: State, action: Actions) => {
 
 export const SignIn = (): JSX.Element => {
   const router = useRouter();
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const [state, dispatch] = useReducer(reducer, initialState);
   const mutation = useMutation<AxiosResponse<LoginResponse>, DirectusError, UserDataRequest>(
     (userData) => postAuthLogin(userData),
     {
       onSuccess: (res) => {
-        localStorage.setItem('AccessToken', res.data.accessToken);
-        setTimeout(() => router.push(STATIC_ROUTES.MessageBoard), 2000);
+        setAccessToken(res.data.accessToken);
+        setTimeout(() => router.push(STATIC_ROUTES.Home), 2000);
       },
     }
   );
@@ -137,7 +140,7 @@ export const SignIn = (): JSX.Element => {
                     }}
                   </Validatable>
                 </div>
-                <div className="d-flex justify-content-center">
+                <div className="d-flex justify-content-center mb-4">
                   <button className="btn btn-primary" type="submit">
                     Continue
                   </button>
@@ -151,6 +154,15 @@ export const SignIn = (): JSX.Element => {
                   {mutation.isError && (
                     <p className="form-text text-danger">{mutation.error.message}</p>
                   )}
+                </div>
+                <div className="text-center">
+                  <p>
+                    Don&apos;t have an account?
+                    <br />
+                    <Link href={STATIC_ROUTES.SignUp}>
+                      <a>Click here to sign up</a>
+                    </Link>
+                  </p>
                 </div>
               </form>
             </div>

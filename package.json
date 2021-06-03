@@ -11,7 +11,9 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext ts --ext tsx --ext js",
     "test": "jest",
-    "test-all": "yarn lint && yarn type-check && yarn test"
+    "test-all": "yarn lint && yarn type-check && yarn test",
+    "download-schema": "apollo service:download --endpoint=\"http://localhost:8056/graphql\" graphql-schema.json --header=\"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMjJkMjdhLTgwMTMtNDIyZS04NWIxLTM3OTE1OTdkZDAwOCIsImlhdCI6MTYyMjc2MTI4OSwiZXhwIjoxNjIyNzYyMTg5fQ.Pl51KjHEYIm41YqQomy4a_hnmblqqsCrYQRsn4y3NMw\"",
+    "codegen": "yarn download-schema && apollo codegen:generate ./types/api.d.ts --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql --outputFlat"
   },
   "husky": {
     "hooks": {
@@ -21,14 +23,14 @@
   },
   "lint-staged": {
     "*.@(ts|tsx)": [
-      "yarn lint",
-      "yarn format"
+      "yarn lint"
     ]
   },
   "dependencies": {
     "autoprefixer": "^10.2.5",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
+    "graphql-tag": "^2.12.4",
     "next": "latest",
     "nookies": "^2.5.2",
     "react": "^17.0.1",
@@ -45,6 +47,7 @@
     "@types/react": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
+    "apollo": "^2.33.4",
     "babel-jest": "^26.6.3",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",

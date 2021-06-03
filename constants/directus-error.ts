@@ -5,6 +5,8 @@ class DirectusError extends Error {
     super(error.message);
     this.code = error.extensions.code;
     this.name = 'DirectusApiError';
+
+    Object.setPrototypeOf(this, DirectusError.prototype);
   }
 }
 

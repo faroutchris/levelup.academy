@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FormEvent, FormEventHandler, useReducer } from 'react';
 import { useMutation } from 'react-query';
@@ -192,7 +193,7 @@ export const Register = (): JSX.Element => {
                       }}
                     </Validatable>
                   </div>
-                  <div className="d-flex justify-content-center">
+                  <div className="d-flex justify-content-center mb-4">
                     <button className="btn btn-primary" type="submit">
                       Continue
                     </button>
@@ -206,6 +207,15 @@ export const Register = (): JSX.Element => {
                     {mutation.isError && (
                       <p className="form-text text-danger">{mutation.error.message}</p>
                     )}
+                  </div>
+                  <div className="text-center">
+                    <p>
+                      Already a member?
+                      <br />
+                      <Link href={STATIC_ROUTES.SignIn}>
+                        <a>Click here to sign in instead</a>
+                      </Link>
+                    </p>
                   </div>
                 </form>
               </div>
