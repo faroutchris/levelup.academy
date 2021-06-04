@@ -1,0 +1,15 @@
+overwrite: true
+schema:
+  - 'http://localhost:8056/graphql':
+    headers:
+      Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMjJkMjdhLTgwMTMtNDIyZS04NWIxLTM3OTE1OTdkZDAwOCIsImlhdCI6MTYyMjc2MzcxOSwiZXhwIjoxNjIyNzY0NjE5fQ.Xv_64Yx6cq5IDtUFfdB7aHyPqkE0DB8iz6vRhpkwWsQ'
+documents: 'services/**/*.ts'
+generates:
+  ./constants/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'fragment-matcher'
+  ./graphql.schema.json:
+    plugins:
+      - 'introspection'

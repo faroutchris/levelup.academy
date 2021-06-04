@@ -2,20 +2,10 @@ import gql from 'graphql-tag';
 
 const query = gql`
   query {
-    module {
+    lesson {
       id
       status
       title
-      description
-      lessons {
-        id
-        status
-        title
-        scenario {
-          id
-          collection
-        }
-      }
     }
   }
 `;

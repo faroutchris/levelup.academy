@@ -4,6 +4,7 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
+    "clean": "rm -rf node_modules",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -12,8 +13,7 @@
     "lint": "eslint . --ext ts --ext tsx --ext js",
     "test": "jest",
     "test-all": "yarn lint && yarn type-check && yarn test",
-    "download-schema": "apollo service:download --endpoint=\"http://localhost:8056/graphql\" graphql-schema.json --header=\"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMjJkMjdhLTgwMTMtNDIyZS04NWIxLTM3OTE1OTdkZDAwOCIsImlhdCI6MTYyMjc2MTI4OSwiZXhwIjoxNjIyNzYyMTg5fQ.Pl51KjHEYIm41YqQomy4a_hnmblqqsCrYQRsn4y3NMw\"",
-    "codegen": "yarn download-schema && apollo codegen:generate ./types/api.d.ts --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql --outputFlat"
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "husky": {
     "hooks": {
@@ -30,6 +30,7 @@
     "autoprefixer": "^10.2.5",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
+    "graphql": "^15.5.0",
     "graphql-tag": "^2.12.4",
     "next": "latest",
     "nookies": "^2.5.2",
@@ -41,13 +42,13 @@
     "zustand": "^3.5.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "1.21.5",
     "@testing-library/react": "^11.2.5",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.25",
     "@types/react": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
-    "apollo": "^2.33.4",
     "babel-jest": "^26.6.3",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
@@ -58,6 +59,10 @@
     "jest-watch-typeahead": "^0.6.1",
     "lint-staged": "^10.0.10",
     "prettier": "^2.0.2",
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.3",
+    "@graphql-codegen/fragment-matcher": "2.0.1",
+    "@graphql-codegen/typescript": "1.22.1",
+    "@graphql-codegen/typescript-operations": "1.18.0",
+    "@graphql-codegen/introspection": "1.18.2"
   }
 }
