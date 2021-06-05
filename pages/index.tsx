@@ -1,11 +1,11 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import React from 'react';
 import { useQuery } from 'react-query';
+import Button from '../components/Button';
+import Container from '../components/Container';
 import cmsAPI from '../config/cms-api';
 import DirectusError from '../constants/directus-error';
-import STATIC_ROUTES from '../constants/routes';
-import { successfulResponse } from '../libs/response-checker/response-checker';
+import { successful } from '../libs/response-checker/response-checker';
 import useAuthStore from '../store/auth';
 
 export const Home = (): JSX.Element => {
@@ -15,7 +15,7 @@ export const Home = (): JSX.Element => {
     async () => {
       try {
         const response = await cmsAPI.get('/items/lesson/2?fields=title,module_id.lessons.*');
-        if (successfulResponse(response)) {
+        if (successful(response)) {
           return response;
         }
       } catch (error) {
@@ -25,7 +25,8 @@ export const Home = (): JSX.Element => {
     {
       refetchOnWindowFocus: false,
       enabled: false,
-    }
+      staleTime: 60 * 1000,
+    },
   );
 
   const handleApiCall = () => {
@@ -39,24 +40,20 @@ export const Home = (): JSX.Element => {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main>
-        <div className="grid">App</div>
-        <div>
-          <Link href={STATIC_ROUTES.SignIn}>
-            <a>Sign in</a>
-          </Link>
-        </div>
-        <div>
-          <Link href={STATIC_ROUTES.SignUp}>
-            <a>Sign up</a>
-          </Link>
-        </div>
-        <div>
-          <button className="btn btn-primary btn-sm" onClick={handleApiCall}>
-            Test api call
-          </button>
-        </div>
+        <Container>
+          <div>
+            <Button color="primary" onClick={handleApiCall}>
+              Test api call
+            </Button>
+            <Button color="primary" onClick={handleApiCall}>
+              Test api call
+            </Button>
+          </div>
+          <ul>
+            <li>Hello</li>
+          </ul>
+        </Container>
       </main>
     </>
   );

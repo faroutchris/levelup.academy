@@ -1,6 +1,7 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 import { JSXElementConstructor, ReactElement, ReactFragment } from 'react';
-
+import { getCssString } from '../config/stitches/ssr-get-css';
+console.log(getCssString());
 interface IDocument {
   html: string;
   head?: JSX.Element[];
@@ -19,9 +20,10 @@ class MyDocument extends Document {
         <Head>
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;1,400;1,500&family=DM+Serif+Display:ital@0;1&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
             rel="stylesheet"
           />
+          {/* <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssString() }} /> */}
         </Head>
         <body>
           <Main />

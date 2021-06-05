@@ -159,7 +159,7 @@ export const SignIn = (): JSX.Element => {
                   <p>
                     Don&apos;t have an account?
                     <br />
-                    <Link href={STATIC_ROUTES.SignUp}>
+                    <Link href={STATIC_ROUTES.Signup}>
                       <a>Click here to sign up</a>
                     </Link>
                   </p>

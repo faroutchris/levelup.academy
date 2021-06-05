@@ -1,13 +1,12 @@
-import '../styles/main.scss';
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import Layout from '../components/Layout';
-// import queryClientInstance from '../config/query-client';
-
-const queryClientInstance = new QueryClient();
+import globalStyles from '../components/GlobalStyles';
+import Layout from '../components/AppLayout';
+import queryClientInstance from '../config/query-client';
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
+  globalStyles();
   return (
     <QueryClientProvider client={queryClientInstance}>
       <Layout>

@@ -1,11 +1,7 @@
 import { AxiosResponse } from 'axios';
 import authAPI from '../../config/auth-api';
 import DirectusError from '../../constants/directus-error';
-import {
-  clientErrorResponse,
-  serverErrorResponse,
-  successfulResponse,
-} from '../../libs/response-checker/response-checker';
+import { clientError, serverError, successful } from '../../libs/response-checker/response-checker';
 
 const postAuthRegister = async (
   userData: UserDataRequest
@@ -13,14 +9,14 @@ const postAuthRegister = async (
   try {
     const response = await authAPI.post('/register', userData);
 
-    if (successfulResponse(response)) {
+    if (successful(response)) {
       return response;
     }
   } catch (error) {
-    if (serverErrorResponse(error.response)) {
+    if (serverError(error.response)) {
       return Promise.reject(new DirectusError(error.response.data.errors[0]));
     }
-    if (clientErrorResponse(error.response)) {
+    if (clientError(error.response)) {
       return Promise.reject(new DirectusError(error.response.data.errors[0]));
     }
   }

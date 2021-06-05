@@ -1,61 +1,112 @@
-import { GetServerSideProps } from 'next';
-import Link from 'next/link';
 import React from 'react';
+import Head from 'next/head';
+import PageHeading from '../../components/PageHeading';
+import IconCommunity from '../../components/svg/icons/IconCommunity';
 import Button from '../../components/Button';
-import Header from '../../components/Header';
-import config from '../../config/config';
-import STATIC_ROUTES from '../../constants/routes';
+import Tab from '../../components/Tab';
+import Tabs from '../../components/Tabs';
+import Card from '../../components/Card';
 
-const MessageBoardIndex: React.FC<{ topics: Topic[] }> = ({ topics }) => {
+const MessageBoardIndex: React.FC = () => {
   return (
-    <main className="w-full min-h-screen relative flex flex-col overflow-hidden bg-subtle">
-      <section className="bg-indigo-400">
-        <div className="container max-w-screen-xl mx-auto px-4 md:px-6 h-96">
-          <Header invert={true} />
+    <>
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <PageHeading>
+        <IconCommunity />
+        <h2>Discussions</h2>
+        <Button
+          color="primary"
+          css={{
+            marginLeft: 'auto',
+          }}
+        >
+          New topic
+        </Button>
+      </PageHeading>
+      <Tabs>
+        <Tab active="true">Recent</Tab>
+        <Tab>Most discussed</Tab>
+        <Tab>Unanswered</Tab>
+        <Tab>My topics</Tab>
+      </Tabs>
+      <Card>
+        {Array(5)
+          .fill(0)
+          .map((_) => (
+            <p>Hello</p>
+          ))}
+      </Card>
+      {/* <div className="row">
+        <div className="col">
+          <h2>Community</h2>
         </div>
-      </section>
-      <div className="container max-w-screen-xl mx-auto px-4 md:px-6 -mt-80">
-        <section className="mt-20 mb-16 flex justify-between items-center">
-          <div>
-            <h1 className="font-bold font-serif text-5xl text-gray-800">Message board</h1>
-            <hr className="ml-4 mt-1 w-20 border-none h-2 bg-yellah-400" />
-          </div>
-
-          <Link href={STATIC_ROUTES.NewMessageBoardTopic}>
-            <a>
-              <Button type="primary">Create new topic</Button>
-            </a>
-          </Link>
-        </section>
-        <section className="bg-white px-16 py-12 rounded-xl shadow-md drop-shadow">
-          {topics.map((topic) => {
-            const date = new Date(topic.published_at);
-            const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-            return (
-              <div key={topic.id} className="border-b-2 py-6 flex items-center">
-                <Link href={`${STATIC_ROUTES.MessageBoardTopic}/${topic.id}`}>
-                  <a>
-                    <h3 className="font-medium text-xl">{topic.title}</h3>
-                  </a>
-                </Link>
-                <span className="ml-5 font-sans">{topic.user?.username}</span>
-                <span className="font-medium ml-auto">{dateString}</span>
-              </div>
-            );
-          })}
-        </section>
+        <div className="col text-end">
+          <button className="btn btn-primary">New topic</button>
+        </div>
       </div>
-    </main>
+      <div className="mb-5">
+        <span className="me-3">Active</span>
+        <span className="me-3 text-muted">Popular</span>
+        <span className="me-3 text-muted">Unanswered</span>
+      </div>
+      {Array(4)
+        .fill(0)
+        .map((n) => (
+          <div key={n} className="row">
+            <div className="col">
+              <div className="d-flex align-items-center mb-3">
+                <div className="flex-shrink-0">
+                  <img
+                    className="round"
+                    src="https://via.placeholder.com/48/f3e44d4"
+                    alt="Avatar"
+                  />
+                </div>
+                <div className="flex-grow-1 ms-3">
+                  <h5 className="mb-0">Forum message</h5>
+
+                  <span className="me-3 fw-medium">Username</span>
+                  <span className="me-3 text-muted">{new Date(Date.now()).toDateString()}</span>
+                  <span className="me-3 text-muted">2 replies</span>
+                </div>
+                <div className="flex-shrink-0">
+                  <img
+                    className="round"
+                    src="https://via.placeholder.com/38/f3e44d4"
+                    alt="Avatar"
+                  />
+                  <img
+                    className="round"
+                    src="https://via.placeholder.com/38/f3e44d4"
+                    alt="Avatar"
+                  />
+                  <img
+                    className="round"
+                    src="https://via.placeholder.com/38/f3e44d4"
+                    alt="Avatar"
+                  />
+                </div>
+                <div className="flex-shrink-1 ms-3">
+                  <h5 className="h5-display">Forum message</h5>
+                  <p className="card-text">
+                    <span className="me-3">Username</span>
+                    <span className="me-3 text-muted">{new Date(Date.now()).toDateString()}</span>
+                    <span className="me-3 text-muted">2 replies</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))} */}
+    </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const topics = await fetch(`${config.apiHost}/topics`).then((res) => res.json());
-  return {
-    props: {
-      topics,
-    },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   /** */
+// };
 
 export default MessageBoardIndex;

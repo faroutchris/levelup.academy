@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
                   <Button type="tertiary">Learn more</Button>
                 </a>
               </Link>
-              <Link href={STATIC_ROUTES.SignUp}>
+              <Link href={STATIC_ROUTES.Signup}>
                 <a>
                   <Button type="tertiary">Try it out</Button>
                 </a>

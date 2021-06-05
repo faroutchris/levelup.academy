@@ -3,9 +3,9 @@ import authAPI from '../../config/auth-api';
 import DirectusError from '../../constants/directus-error';
 import { clientError, serverError, successful } from '../../libs/response-checker/response-checker';
 
-const postAuthLogin = async (userData: UserDataRequest): Promise<AxiosResponse<LoginResponse>> => {
+const postAuthLogout = async (): Promise<AxiosResponse<null>> => {
   try {
-    const response = await authAPI.post('/login', userData);
+    const response = await authAPI.post('/logout');
 
     if (successful(response)) {
       return response;
@@ -20,4 +20,4 @@ const postAuthLogin = async (userData: UserDataRequest): Promise<AxiosResponse<L
   }
 };
 
-export default postAuthLogin;
+export default postAuthLogout;

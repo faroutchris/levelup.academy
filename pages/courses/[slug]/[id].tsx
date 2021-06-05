@@ -25,9 +25,9 @@ export const LessonPage = (): JSX.Element => {
           });
           const data = await response.json();
           if (data.statusCode === StatusCodes.UNAUTHORIZED) {
-            router.push(STATIC_ROUTES.SignIn);
+            router.push(STATIC_ROUTES.Signin);
           } else if (data.statusCode === StatusCodes.FORBIDDEN) {
-            router.push(STATIC_ROUTES.SignIn); // Not authorized user
+            router.push(STATIC_ROUTES.Signin); // Not authorized user
           } else {
             setData(data);
           }
@@ -60,25 +60,13 @@ export const LessonPage = (): JSX.Element => {
 
         {data.scenarios.map((scenario) => {
           if (scenario.__component === 'lesson-components.article') {
-            return (
-              <p key={scenario.__component + '_' + scenario.id}>
-                {scenario.title}
-              </p>
-            );
+            return <p key={scenario.__component + '_' + scenario.id}>{scenario.title}</p>;
           }
           if (scenario.__component === 'lesson-components.question-scenario') {
-            return (
-              <p key={scenario.__component + '_' + scenario.id}>
-                {scenario.question}
-              </p>
-            );
+            return <p key={scenario.__component + '_' + scenario.id}>{scenario.question}</p>;
           }
           if (scenario.__component === 'lesson-components.video-lesson') {
-            return (
-              <p key={scenario.__component + '_' + scenario.id}>
-                {scenario.title}
-              </p>
-            );
+            return <p key={scenario.__component + '_' + scenario.id}>{scenario.title}</p>;
           }
           return null;
         })}
@@ -90,13 +78,7 @@ export const LessonPage = (): JSX.Element => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <Image
-            src="/vercel.svg"
-            alt="Vercel Logo"
-            height={'32'}
-            width={'64'}
-          />
+          Powered by <Image src="/vercel.svg" alt="Vercel Logo" height={'32'} width={'64'} />
         </a>
       </footer>
     </div>

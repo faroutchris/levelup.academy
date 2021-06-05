@@ -6,11 +6,6 @@ export default class AuthInterceptor implements Interceptor {
   request = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
     const { accessToken } = useAuthStore.getState();
 
-    const accessToken2 = window !== undefined && window.localStorage.getItem('AccessToken'); // useAuthStore.getState();
-
-    console.log('-->', accessToken);
-    console.log('2', accessToken2);
-
     if (accessToken) {
       return {
         ...config,
@@ -24,8 +19,6 @@ export default class AuthInterceptor implements Interceptor {
   onRejected = async (instance: AxiosInstance, error: AxiosError): Promise<any> => {
     const { response, config } = error;
     const { setAccessToken } = useAuthStore.getState();
-
-    console.log('-->', setAccessToken);
 
     if (response.status === 401) {
       try {

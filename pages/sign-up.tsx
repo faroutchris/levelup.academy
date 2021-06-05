@@ -212,7 +212,7 @@ export const Register = (): JSX.Element => {
                     <p>
                       Already a member?
                       <br />
-                      <Link href={STATIC_ROUTES.SignIn}>
+                      <Link href={STATIC_ROUTES.Signin}>
                         <a>Click here to sign in instead</a>
                       </Link>
                     </p>

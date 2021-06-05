@@ -1,6 +1,6 @@
 import { styled } from '../config/stitches/stitches.config';
 import ButtonShared from './ButtonShared';
 
-const Button = styled('button', ButtonShared);
+const ButtonLink = styled('a', ButtonShared);
 
-export default Button;
+export default ButtonLink;

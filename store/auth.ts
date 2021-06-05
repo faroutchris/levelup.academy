@@ -7,16 +7,16 @@ interface AuthStoreState {
 }
 
 const useAuthStore = create<AuthStoreState>(
-  persist(
-    (set) => ({
-      accessToken: '',
-      setAccessToken: (accessToken) => set((_state) => ({ accessToken })),
-    }),
-    {
-      name: 'AccessToken',
-      serialize: ({ state }) => JSON.stringify(state.accessToken),
-      deserialize: (accessToken: string) => JSON.parse(`{ "accessToken": "${accessToken}" }`),
-    }
+  devtools(
+    persist(
+      (set) => ({
+        accessToken: '',
+        setAccessToken: (accessToken) => set((_state) => ({ accessToken })),
+      }),
+      {
+        name: 'AccessToken',
+      }
+    )
   )
 );
 
