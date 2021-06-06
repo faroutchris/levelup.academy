@@ -1,4 +1,4 @@
-import { styled } from '../config/stitches/stitches.config';
+import { styled } from '../config/stitches.config';
 
 const Tabs = styled('nav', {
   marginBottom: '$lg',

@@ -4,7 +4,7 @@ import STATIC_ROUTES from '../constants/routes';
 import Validatable from '../components/Validatable';
 import { useMutation } from 'react-query';
 import DirectusError from '../constants/directus-error';
-import postAuthLogin from '../services/api/post-auth-login';
+import postAuthLogin from '../services/auth/post-auth-login';
 import { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import useAuthStore from '../store/auth';
@@ -57,7 +57,7 @@ export const SignIn = (): JSX.Element => {
         setAccessToken(res.data.accessToken);
         setTimeout(() => router.push(STATIC_ROUTES.Home), 2000);
       },
-    }
+    },
   );
 
   const handleSubmit = (e) => {

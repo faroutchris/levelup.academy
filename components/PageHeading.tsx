@@ -1,4 +1,4 @@
-import { styled } from '../config/stitches/stitches.config';
+import { styled } from '../config/stitches.config';
 import rem from '../libs/style-utils/rem';
 import IconCommunity from './svg/icons/IconCommunity';
 

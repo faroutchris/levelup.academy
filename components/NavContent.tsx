@@ -1,4 +1,4 @@
-import { styled } from '../config/stitches/stitches.config';
+import { styled } from '../config/stitches.config';
 
 const NavContent = styled('div', {
   display: 'flex',

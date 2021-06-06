@@ -1,5 +1,3 @@
-const rem = (px: number) => {
-  return `${px / 14}rem`;
-};
+const rem = (px: number) => `${px / 14}rem`;
 
 export default rem;

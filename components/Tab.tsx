@@ -1,11 +1,10 @@
-import { styled } from '../config/stitches/stitches.config';
+import { styled } from '../config/stitches.config';
 
 const Tab = styled('a', {
   color: '$muted',
   paddingX: '$md',
   paddingY: '$xs',
   borderRadius: '$default',
-  marginRight: '$sm',
   cursor: 'pointer',
 
   '&:hover': {
@@ -14,7 +13,7 @@ const Tab = styled('a', {
 
   variants: {
     active: {
-      ['true']: {
+      true: {
         backgroundColor: '$white',
         color: '$primary',
       },

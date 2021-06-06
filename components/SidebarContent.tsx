@@ -1,4 +1,4 @@
-import { styled } from '../config/stitches/stitches.config';
+import { styled } from '../config/stitches.config';
 
 const SidebarContent = styled('div', {
   paddingX: '$lg',

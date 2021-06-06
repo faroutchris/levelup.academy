@@ -1,5 +1,5 @@
 import { createCss } from '@stitches/react';
-import rem from '../../libs/style-utils/rem';
+import rem from '../libs/style-utils/rem';
 
 export const { styled, css, global, keyframes, getCssString, theme } = createCss({
   theme: {
@@ -14,16 +14,22 @@ export const { styled, css, global, keyframes, getCssString, theme } = createCss
       muted: '#7C9CBF',
       white: '#FFFFFF',
       shade: '#eaedf0',
+      shadeDark: '#c7cfd7',
+      shadeDarker: '#b2bdc8',
       tint: '#ECF0F2',
       tintDark: '#728191',
       error: '#FF7171',
       warning: '#F2AC57',
       success: '#14A38B',
+      successLight: '#19ceb0',
+      successDark: '#108a76',
     },
-    sizes: {
-      $base: rem(14),
-      $menu: rem(18),
-      $pageheading: rem(34),
+    fontSizes: {
+      base: rem(14),
+      text: rem(16),
+      larger: rem(18),
+      title: rem(20),
+      pageheading: rem(36),
     },
     space: {
       xxs: rem(4),

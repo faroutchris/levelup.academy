@@ -29,10 +29,10 @@ const Nav: React.FC = () => {
       </NavContent>
       <NavActions>
         <Link href={STATIC_ROUTES.Signin}>
-          <ButtonLink color="primary">Sign in</ButtonLink>
+          <ButtonLink color="link">Sign in</ButtonLink>
         </Link>
         <Link href={STATIC_ROUTES.Signup}>
-          <ButtonLink color="accent">Sign up</ButtonLink>
+          <ButtonLink color="success">Sign up</ButtonLink>
         </Link>
       </NavActions>
     </Navbar>

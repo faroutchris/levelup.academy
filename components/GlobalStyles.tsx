@@ -1,4 +1,4 @@
-import { global } from '../config/stitches/stitches.config';
+import { global } from '../config/stitches.config';
 import rem from '../libs/style-utils/rem';
 
 const globalStyles = global({
@@ -23,6 +23,7 @@ const globalStyles = global({
   'html,body': {
     fontSize: '14px',
     fontWeight: '500',
+    minHeight: '100vh',
   },
 
   body: {

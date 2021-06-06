@@ -6,7 +6,7 @@ import { useMutation } from 'react-query';
 import Validatable from '../components/Validatable';
 import STATIC_ROUTES from '../constants/routes';
 import DirectusError from '../constants/directus-error';
-import postAuthRegister from '../services/api/post-auth-register';
+import postAuthRegister from '../services/auth/post-auth-register';
 import { AxiosResponse } from 'axios';
 
 const validations = {
@@ -70,7 +70,7 @@ export const Register = (): JSX.Element => {
         localStorage.setItem('AuthToken', res.data.accessToken);
         setTimeout(() => router.push(STATIC_ROUTES.MessageBoard), 2000);
       },
-    }
+    },
   );
 
   const handleSubmit: FormEventHandler = async (event: FormEvent<HTMLFormElement>) => {

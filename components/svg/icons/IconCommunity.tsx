@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const Icon = (props: React.SVGProps<SVGSVGElement>) => {
+const IconCommunity = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       width={48}
@@ -21,8 +21,6 @@ const Icon = (props: React.SVGProps<SVGSVGElement>) => {
     </svg>
   );
 };
-
-const IconCommunity = React.memo(Icon);
 
 IconCommunity.toString = () => '.icon-community';
 

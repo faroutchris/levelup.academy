@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import DirectusError from '../constants/directus-error';
 import STATIC_ROUTES from '../constants/routes';
-import postAuthLogout from '../services/api/post-auth-logout';
+import postAuthLogout from '../services/auth/post-auth-logout';
 import useAuthStore from '../store/auth';
 
 const SignoutPage = () => {

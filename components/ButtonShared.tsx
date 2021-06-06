@@ -5,7 +5,6 @@ export default {
   alignItems: 'center',
   cursor: 'pointer',
   border: '0',
-  color: '$white',
   borderRadius: '$default',
   fontSize: rem(15),
   fontWeight: 500,
@@ -22,6 +21,7 @@ export default {
   variants: {
     color: {
       primary: {
+        color: '$white',
         backgroundColor: '$primary',
         '&:hover': {
           backgroundColor: '$primaryLight',
@@ -31,6 +31,7 @@ export default {
         },
       },
       secondary: {
+        color: '$white',
         backgroundColor: '$secondary',
         '&:hover': {
           backgroundColor: '$secondaryLight',
@@ -39,13 +40,24 @@ export default {
           backgroundColor: '$secondaryLight',
         },
       },
-      accent: {
+      success: {
+        color: '$white',
         backgroundColor: '$success',
         '&:hover': {
-          backgroundColor: '$accentLight',
+          backgroundColor: '$successDark',
         },
         '&:active': {
-          backgroundColor: '$accentLight',
+          backgroundColor: '$successDark',
+        },
+      },
+      link: {
+        color: '$text',
+        backgroundColor: 'transparent',
+        '&:hover': {
+          backgroundColor: '$tint',
+        },
+        '&:active': {
+          backgroundColor: '$tint',
         },
       },
     },
