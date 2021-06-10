@@ -30,7 +30,7 @@ type Response = {
       title: string;
       text: string;
       date_created: string;
-      replies: {
+      replies?: {
         id: number;
         text: string;
         user_created: {

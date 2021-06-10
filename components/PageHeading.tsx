@@ -1,11 +1,10 @@
 import { styled } from '../config/stitches.config';
 import rem from '../libs/style-utils/rem';
-import IconCommunity from './svg/icons/IconCommunity';
 
 const PageHeading = styled('div', {
   display: 'flex',
   width: '100%',
-  fontSize: rem(24),
+  fontSize: '$pageheading',
   alignItems: 'center',
   marginBottom: '$md',
 

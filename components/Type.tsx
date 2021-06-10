@@ -8,6 +8,9 @@ const Type = styled('span', {
       base: {
         fontSize: '$base',
       },
+      larger: {
+        fontSize: '$larger',
+      },
       title: {
         fontSize: '$title',
       },

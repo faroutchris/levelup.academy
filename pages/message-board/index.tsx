@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
+import { useQuery } from 'react-query';
+import { useRouter } from 'next/router';
+import queryAllDiscussions from '../../services/cms/all-discussions';
 import PageHeading from '../../components/PageHeading';
 import IconCommunity from '../../components/svg/icons/IconCommunity';
 import Button from '../../components/Button';
@@ -10,18 +13,36 @@ import Avatar from '../../components/Avatar';
 import TopicItem from '../../components/TopicItem';
 import TopicData from '../../components/TopicData';
 import Type from '../../components/Type';
-import { useQuery } from 'react-query';
-import queryAllDiscussions from '../../services/cms/all-discussions';
+import withAuth from '../../components/WithAuth';
+import STATIC_ROUTES from '../../constants/routes';
+import ButtonLink from '../../components/ButtonLink';
+import Link from 'next/link';
 
 const MessageBoardIndex: React.FC = () => {
-  const query = useQuery('all-discussions', () =>
-    queryAllDiscussions({ page: 1, withReplies: true }),
+  const [error, setError] = useState(null);
+  const router = useRouter();
+
+  const query = useQuery(
+    'all-discussions',
+    () => queryAllDiscussions({ page: 1, withReplies: true }),
+    {
+      onError: (error) => {
+        console.log(error);
+        setError(error);
+      },
+      staleTime: 60 * 1000,
+    },
   );
+
+  if (error) {
+    router.push(STATIC_ROUTES.Home);
+    return null;
+  }
 
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>Message board</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageHeading>
@@ -29,14 +50,16 @@ const MessageBoardIndex: React.FC = () => {
         <Type as="h2" size="pageheading">
           Discussions
         </Type>
-        <Button
-          color="success"
-          css={{
-            marginLeft: 'auto',
-          }}
-        >
-          New topic
-        </Button>
+        <Link href={STATIC_ROUTES.NewMessageBoardTopic}>
+          <ButtonLink
+            color="success"
+            css={{
+              marginLeft: 'auto',
+            }}
+          >
+            New topic
+          </ButtonLink>
+        </Link>
       </PageHeading>
       <Tabs>
         <Tab active>Recent</Tab>
@@ -51,15 +74,20 @@ const MessageBoardIndex: React.FC = () => {
               <TopicItem>
                 <Avatar src="https://i.pravatar.cc/48" alt="Avatar" />
                 <TopicData>
-                  <Type as="h3">{topic.title}</Type>
-
+                  <Type as="h3" size="larger">
+                    {topic.title}
+                  </Type>
                   <Type color="muted" css={{ marginRight: '$sm' }}>
                     {topic.user_created.first_name}
                   </Type>
                   <Type color="muted" css={{ marginRight: '$sm' }}>
                     {new Date(topic.date_created).toDateString()}
                   </Type>
-                  <Type color="muted">{Object.entries(topic.replies).length}</Type>
+                  {topic.replies ? (
+                    <Type color="muted">{Object.entries(topic.replies).length} replies</Type>
+                  ) : (
+                    <Type color="muted">No replies</Type>
+                  )}
                 </TopicData>
               </TopicItem>
             );
@@ -69,4 +97,4 @@ const MessageBoardIndex: React.FC = () => {
   );
 };
 
-export default MessageBoardIndex;
+export default withAuth(MessageBoardIndex);

@@ -5,7 +5,6 @@ const Sidebar = styled('div', {
   gridColumnEnd: 2,
   gridRowStart: 1,
   gridRowEnd: 3,
-  backgroundColor: '$shadeDark',
   minHeight: '100vh',
 });
 

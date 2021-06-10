@@ -1,35 +1,40 @@
+import { AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
 import React, { FormEventHandler, useState } from 'react';
+import { useMutation } from 'react-query';
 import config from '../../config/config';
+import DirectusError from '../../constants/directus-error';
 import STATIC_ROUTES from '../../constants/routes';
+import postAuthRegister from '../../services/auth/post-auth-register';
+import mutationCreateTopic, {
+  MutationDataResponse,
+  MutationDataRequest,
+} from '../../services/cms/create-topic';
 
 const NewTopic: React.FC = () => {
   const router = useRouter();
   const [title, setTitle] = useState<string>('');
   const [post, setPost] = useState<string>('');
 
+  const mutation = useMutation<
+    AxiosResponse<MutationDataResponse>,
+    DirectusError,
+    MutationDataRequest
+  >((data) => mutationCreateTopic(data), {
+    onSuccess: (res) => {
+      console.log(res.data);
+      setTimeout(
+        () =>
+          router.push(`${STATIC_ROUTES.MessageBoardTopic}/${res.data.create_board_topic_item.id}`),
+        500,
+      );
+    },
+  });
+
   const handlePost: FormEventHandler = async (event) => {
     event.preventDefault();
 
-    try {
-      await fetch(`${config.apiHost}/topics`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('AuthToken')}`,
-          'Content-Type': 'application/json',
-        },
-        cache: 'no-cache',
-        body: JSON.stringify({
-          title,
-          post,
-        }),
-      });
-
-      router.push(STATIC_ROUTES.MessageBoard);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
+    mutation.mutate({ title: 'Hello', text: 'world' });
   };
 
   const handleOnChange = (event, field) => {
@@ -37,7 +42,7 @@ const NewTopic: React.FC = () => {
     if (field === 'title') {
       setTitle(value);
     }
-    if (field === 'post') {
+    if (field === 'text') {
       setPost(value);
     }
   };

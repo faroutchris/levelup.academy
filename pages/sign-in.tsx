@@ -8,6 +8,8 @@ import postAuthLogin from '../services/auth/post-auth-login';
 import { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import useAuthStore from '../store/auth';
+import Input from '../components/Input';
+import Button from '../components/Button';
 
 const validations = {
   leastChars: (n: number) => ({
@@ -94,7 +96,7 @@ export const SignIn = (): JSX.Element => {
                           <label className="mb-2" htmlFor="inputEmail">
                             Email
                           </label>
-                          <input
+                          <Input
                             className="form-control"
                             value={value}
                             onChange={(e) => setValue(e.target.value)}
@@ -123,7 +125,7 @@ export const SignIn = (): JSX.Element => {
                           <label className="mb-1" htmlFor="inputPassword">
                             Password
                           </label>
-                          <input
+                          <Input
                             className="form-control"
                             value={value}
                             onChange={(e) => setValue(e.target.value)}
@@ -141,9 +143,9 @@ export const SignIn = (): JSX.Element => {
                   </Validatable>
                 </div>
                 <div className="d-flex justify-content-center mb-4">
-                  <button className="btn btn-primary" type="submit">
+                  <Button type="submit" color="success">
                     Continue
-                  </button>
+                  </Button>
                 </div>
                 <div className="d-flex justify-content-center">
                   {mutation.isSuccess && (
