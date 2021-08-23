@@ -6,7 +6,7 @@ const mutation = `
       title: $title, text: $text
     }) {
       id
-    }    
+    }
   }
 `;
 

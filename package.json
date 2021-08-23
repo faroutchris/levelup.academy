@@ -1,6 +1,6 @@
 {
-  "name": "with-typescript-eslint-jest",
-  "author": "@erikdstock",
+  "name": "levelupacademy",
+  "author": "christo",
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
@@ -13,7 +13,8 @@
     "lint": "eslint . --ext ts --ext tsx --ext js",
     "test": "jest",
     "test-all": "yarn lint && yarn type-check && yarn test",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "graphiql": "open graphiql.html"
   },
   "husky": {
     "hooks": {

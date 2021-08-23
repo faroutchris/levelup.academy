@@ -12,12 +12,12 @@ const Nav: React.FC = () => {
     <Navbar>
       <NavContent>
         <NavItem>
-          <Link href="#">
+          <Link href={STATIC_ROUTES.Courses}>
             <a>Courses</a>
           </Link>
         </NavItem>
         <NavItem>
-          <Link href="#">
+          <Link href={STATIC_ROUTES.MessageBoard}>
             <a>Discussions</a>
           </Link>
         </NavItem>

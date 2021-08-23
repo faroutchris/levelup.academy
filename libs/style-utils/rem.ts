@@ -1,3 +1,3 @@
-const rem = (px: number) => `${px / 14}rem`;
+const rem = (px: number): string => `${px / 14}rem`;
 
 export default rem;

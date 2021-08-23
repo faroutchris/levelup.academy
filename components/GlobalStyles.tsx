@@ -1,5 +1,4 @@
 import { global } from '../config/stitches.config';
-import rem from '../libs/style-utils/rem';
 
 const globalStyles = global({
   '*, *:before, *:after': {
@@ -32,7 +31,7 @@ const globalStyles = global({
     textRendering: 'optimizeSpeed',
     lineHeight: 1.5,
     fontFamily: 'Inter, sans-serif',
-    backgroundColor: '$shade',
+    backgroundColor: '#f0ece6', // '$shade',
     color: '$text',
   },
 

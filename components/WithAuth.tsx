@@ -3,11 +3,9 @@ import React from 'react';
 import STATIC_ROUTES from '../constants/routes';
 import useAuthStore from '../store/auth';
 
-const withAuth = <P extends object>(WrappedComponent: React.ComponentType<P>) => {
-  return (props: P) => {
+const withAuth = <P extends Record<string, unknown>>(WrappedComponent: React.ComponentType<P>) => {
+  return (props: P): React.ReactElement => {
     const { accessToken } = useAuthStore();
-
-    console.log(accessToken);
 
     if (typeof window !== 'undefined') {
       const Router = useRouter();

@@ -3,6 +3,7 @@ enum STATIC_ROUTES {
   Signin = '/sign-in',
   Signup = '/sign-up',
   Signout = '/sign-out',
+  Courses = '/courses',
   MessageBoard = '/message-board',
   MessageBoardTopic = '/message-board/topic',
   NewMessageBoardTopic = '/message-board/new',

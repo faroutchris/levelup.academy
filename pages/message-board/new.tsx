@@ -2,10 +2,9 @@ import { AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
 import React, { FormEventHandler, useState } from 'react';
 import { useMutation } from 'react-query';
-import config from '../../config/config';
+import Input from '../../components/Input';
 import DirectusError from '../../constants/directus-error';
 import STATIC_ROUTES from '../../constants/routes';
-import postAuthRegister from '../../services/auth/post-auth-register';
 import mutationCreateTopic, {
   MutationDataResponse,
   MutationDataRequest,
@@ -22,7 +21,6 @@ const NewTopic: React.FC = () => {
     MutationDataRequest
   >((data) => mutationCreateTopic(data), {
     onSuccess: (res) => {
-      console.log(res.data);
       setTimeout(
         () =>
           router.push(`${STATIC_ROUTES.MessageBoardTopic}/${res.data.create_board_topic_item.id}`),
@@ -34,7 +32,7 @@ const NewTopic: React.FC = () => {
   const handlePost: FormEventHandler = async (event) => {
     event.preventDefault();
 
-    mutation.mutate({ title: 'Hello', text: 'world' });
+    mutation.mutate({ title, text: post });
   };
 
   const handleOnChange = (event, field) => {
@@ -42,7 +40,7 @@ const NewTopic: React.FC = () => {
     if (field === 'title') {
       setTitle(value);
     }
-    if (field === 'text') {
+    if (field === 'post') {
       setPost(value);
     }
   };
@@ -51,7 +49,7 @@ const NewTopic: React.FC = () => {
     <main>
       <form onSubmit={handlePost}>
         <div>
-          <input
+          <Input
             type="text"
             name="title"
             id="title"

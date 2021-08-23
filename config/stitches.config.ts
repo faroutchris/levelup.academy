@@ -5,15 +5,15 @@ export const { styled, css, global, keyframes, getCssString, theme } = createCss
   theme: {
     colors: {
       text: '#2C2738',
-      primary: '#6B58DE',
+      primary: '#20D489',
       primaryLight: '#5c5175',
-      secondary: '#756F86',
+      secondary: '#E4E6EF',
       secondaryLight: '#9792a4',
       accent: '#248EEF',
       accentLight: '#5aaaf3',
       muted: '#7C9CBF',
       white: '#FFFFFF',
-      shade: '#eaedf0',
+      shade: '#fbf9f6',
       shadeDark: '#c7cfd7',
       shadeDarker: '#b2bdc8',
       tint: '#ECF0F2',

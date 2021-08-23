@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import queryAllDiscussions from '../../services/cms/all-discussions';
 import PageHeading from '../../components/PageHeading';
 import IconCommunity from '../../components/svg/icons/IconCommunity';
-import Button from '../../components/Button';
 import Tab from '../../components/Tab';
 import Tabs from '../../components/Tabs';
 import Card from '../../components/Card';
@@ -71,7 +70,7 @@ const MessageBoardIndex: React.FC = () => {
         {query.isSuccess &&
           query.data.data.board_topic.map((topic) => {
             return (
-              <TopicItem>
+              <TopicItem key={topic.id}>
                 <Avatar src="https://i.pravatar.cc/48" alt="Avatar" />
                 <TopicData>
                   <Type as="h3" size="larger">
